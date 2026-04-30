@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Fintech premium light */
+    --background: 220 20% 98%;
+    --foreground: 224 30% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 30% 10%;
+
+    /* Brand: deep violet (Nubank-ish but bluer) */
+    --primary: 258 89% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 258 95% 70%;
+
+    --secondary: 220 15% 95%;
+    --secondary-foreground: 224 30% 14%;
+
+    --muted: 220 15% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 160 84% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 152 76% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 95% 55%;
+    --warning-foreground: 224 30% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 91%;
+    --input: 220 15% 91%;
+    --ring: 258 89% 58%;
+
+    --radius: 0.875rem;
+
+    --gradient-primary: linear-gradient(135deg, hsl(258 89% 58%), hsl(280 90% 65%));
+    --gradient-accent: linear-gradient(135deg, hsl(160 84% 45%), hsl(180 80% 50%));
+    --gradient-surface: linear-gradient(180deg, hsl(220 20% 99%), hsl(220 20% 96%));
+
+    --shadow-sm: 0 1px 2px hsl(224 30% 10% / 0.04);
+    --shadow-md: 0 4px 16px -4px hsl(224 30% 10% / 0.08);
+    --shadow-lg: 0 12px 40px -10px hsl(258 89% 58% / 0.25);
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 224 20% 30%;
+    --sidebar-primary: 258 89% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 20% 96%;
+    --sidebar-accent-foreground: 258 89% 58%;
+    --sidebar-border: 220 15% 92%;
+    --sidebar-ring: 258 89% 58%;
+  }
+
+  .dark {
+    --background: 224 30% 7%;
+    --foreground: 220 15% 96%;
+
+    --card: 224 25% 10%;
+    --card-foreground: 220 15% 96%;
+
+    --popover: 224 25% 10%;
+    --popover-foreground: 220 15% 96%;
+
+    --primary: 258 95% 70%;
+    --primary-foreground: 224 30% 8%;
+    --primary-glow: 258 95% 78%;
+
+    --secondary: 224 20% 14%;
+    --secondary-foreground: 220 15% 96%;
+
+    --muted: 224 20% 14%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 160 84% 50%;
+    --accent-foreground: 224 30% 8%;
+
+    --success: 152 76% 50%;
+    --success-foreground: 224 30% 8%;
+
+    --warning: 38 95% 60%;
+    --warning-foreground: 224 30% 8%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 224 20% 18%;
+    --input: 224 20% 18%;
+    --ring: 258 95% 70%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(258 95% 65%), hsl(280 90% 70%));
+    --gradient-surface: linear-gradient(180deg, hsl(224 30% 8%), hsl(224 30% 6%));
+    --shadow-lg: 0 12px 40px -10px hsl(258 95% 50% / 0.4);
+
+    --sidebar-background: 224 28% 9%;
+    --sidebar-foreground: 220 15% 80%;
+    --sidebar-primary: 258 95% 70%;
+    --sidebar-primary-foreground: 224 30% 8%;
+    --sidebar-accent: 224 22% 14%;
+    --sidebar-accent-foreground: 258 95% 75%;
+    --sidebar-border: 224 22% 16%;
+    --sidebar-ring: 258 95% 70%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  html { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer utilities {
+  .gradient-primary { background: var(--gradient-primary); }
+  .gradient-accent { background: var(--gradient-accent); }
+  .gradient-surface { background: var(--gradient-surface); }
+  .shadow-soft { box-shadow: var(--shadow-md); }
+  .shadow-glow { box-shadow: var(--shadow-lg); }
+  .text-balance { text-wrap: balance; }
+}

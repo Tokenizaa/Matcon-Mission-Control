@@ -1,0 +1,15 @@
+{
+  "name": "Balcão · Sistema operacional do varejo",
+  "short_name": "Balcão",
+  "description": "Cliente, orçamento, pedido e cobrança. Tudo no balcão e no WhatsApp.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0710",
+  "theme_color": "#7c3aed",
+  "icons": [
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
