@@ -1,0 +1,17 @@
+# Variáveis de ambiente (contém senhas e chaves)
+.env
+
+# Logs
+*.log
+
+# Backups de banco de dados
+*.sql
+*.sql.gz
+
+# Arquivos temporários
+*.tmp
+*.swp
+*~
+
+# Docker (gerado automaticamente)
+.docker/
