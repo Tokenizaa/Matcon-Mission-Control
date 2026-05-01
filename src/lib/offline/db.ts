@@ -34,7 +34,10 @@ const TABLES: TableName[] = [
   "whatsapp_events",
   "conversation_contexts",
   "event_store",
-  "message_intents"
+  "message_intents",
+  "categories",
+  "carts",
+  "cart_items"
 ];
 
 let dbPromise: Promise<IDBPDatabase> | null = null;

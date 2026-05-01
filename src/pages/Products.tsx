@@ -153,7 +153,7 @@ export default function Products() {
 
       <div className="grid gap-3">
         {filtered.length === 0 && <Card className="p-10 text-center text-muted-foreground rounded-2xl">Nenhum produto</Card>}
-        {filtered.map((p: any) => (
+        {filtered.map((p) => (
           <Card key={p.id} onClick={() => openEdit(p)} className="p-4 rounded-2xl shadow-soft flex items-center justify-between gap-3 cursor-pointer hover:shadow-glow transition-shadow">
             <div className="flex items-center gap-3 min-w-0">
               <div className="h-10 w-10 rounded-xl bg-secondary flex items-center justify-center shrink-0">

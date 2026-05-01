@@ -16,6 +16,7 @@ import Orders from "./pages/Orders";
 import Payments from "./pages/Payments";
 import WhatsAppLogs from "./pages/WhatsAppLogs";
 import Conversations from "./pages/Conversations";
+import Store from "./pages/Store";
 import MissionControl from "./pages/pmo/MissionControl";
 import Kanban from "./pages/pmo/Kanban";
 import Thesis from "./pages/pmo/Thesis";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/" element={<MissionControl />} />
               <Route path="/analise" element={<Dashboard />} />
               <Route path="/conversas" element={<Conversations />} />
+              <Route path="/loja" element={<Store />} />
               <Route path="/pmo/kanban" element={<Kanban />} />
               <Route path="/pmo/tese" element={<Thesis />} />
               <Route path="/pmo/roadmap" element={<Roadmap />} />

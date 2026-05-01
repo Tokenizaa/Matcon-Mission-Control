@@ -40,7 +40,7 @@ export default function Quotes() {
             <Link to="/orcamentos/novo"><Button className="mt-4 gradient-primary text-primary-foreground rounded-xl">Criar primeiro</Button></Link>
           </Card>
         )}
-        {quotes.map((q: any) => (
+        {quotes.map((q: { id: string; customers: { name: string } | null; created_at: string; total: number; status: string }) => (
           <Link to={`/orcamentos/${q.id}`} key={q.id}>
             <Card className="p-4 rounded-2xl shadow-soft hover:shadow-glow transition-shadow flex items-center justify-between gap-3">
               <div className="min-w-0">

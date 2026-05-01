@@ -18,7 +18,13 @@ export type EventType =
   | "inventory_updated"
   | "xml_imported"
   | "whatsapp_message_received"
-  | "whatsapp_message_sent";
+  | "whatsapp_message_sent"
+  | "cart_created"
+  | "cart_updated"
+  | "cart_abandoned"
+  | "checkout_started"
+  | "checkout_completed"
+  | "quote_requested";
 
 export async function emitEvent(
   tenantId: string,
@@ -39,7 +45,7 @@ export async function emitEvent(
       },
     };
 
-    await offlineInsert("event_store" as "event_store", event as Row<"event_store">);
+    await offlineInsert("event_store", event as Row<"event_store">);
     console.log(`[EventStore] ${eventType} recorded for ${aggregateType}:${aggregateId}`);
     return event;
   } catch (err) {

@@ -11,12 +11,13 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Plus, MessageCircle, ShoppingCart, Save } from "lucide-react";
+import { Trash2, Plus, MessageCircle, ShoppingCart, Save, History } from "lucide-react";
 import { brl } from "@/lib/format";
 import { toast } from "sonner";
 import { offlineList, offlineInsert, offlineUpdate, offlineDeleteByMatch } from "@/lib/offline/api";
 import { sendWhatsApp, waTemplates } from "@/lib/whatsapp";
 import { emitEvent } from "@/lib/offline/events";
+import Timeline from "@/components/Timeline";
 
 type Item = { id?: string; product_id: string | null; product_name: string; quantity: number; price: number; total: number };
 
@@ -129,8 +130,8 @@ export default function QuoteEdit() {
     nav(`/pedidos`);
   };
 
-  const customer = (customers as any[]).find((c) => c.id === customerId);
-  const waMessage = waTemplates.quote({ customerName: customer?.name as string | undefined, items, subtotal, discount, total, notes });
+  const customer = customers.find((c) => c.id === customerId);
+  const waMessage = waTemplates.quote({ customerName: customer?.name, items, subtotal, discount, total, notes });
 
   const sendQuoteWa = async () => {
     const res = await sendWhatsApp({
@@ -152,7 +153,7 @@ export default function QuoteEdit() {
               <Select value={customerId} onValueChange={setCustomerId}>
                 <SelectTrigger className="rounded-xl"><SelectValue placeholder="Selecionar" /></SelectTrigger>
                 <SelectContent>
-                  {(customers as any[]).map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                  {customers.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -234,6 +235,14 @@ export default function QuoteEdit() {
             <Button onClick={convertToOrder} disabled={saving || items.length === 0} variant="outline" className="rounded-xl">
               <ShoppingCart className="h-4 w-4 mr-1" />Converter em pedido
             </Button>
+          </div>
+
+          <div className="pt-4 border-t">
+            <div className="flex items-center gap-2 mb-4">
+              <History className="h-4 w-4 text-primary" />
+              <span className="text-xs font-semibold">Histórico de Eventos</span>
+            </div>
+            <Timeline aggregateId={id} className="px-1" />
           </div>
         </Card>
       </div>
