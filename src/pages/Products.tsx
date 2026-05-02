@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, Search, Package, FileUp, Image, Link2, X, GripVertical, Share2, Eye, Zap } from "lucide-react";
+import { Plus, Search, Package, FileUp, Image, Link2, X, GripVertical, Share2, Eye, Zap, Sparkles, ChevronRight, FastForward } from "lucide-react";
 import { brl } from "@/lib/format";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -83,6 +83,7 @@ export default function Products() {
   const [activeTab, setActiveTab] = useState("basic");
   const [imageUrlInput, setImageUrlInput] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [isQuickMode, setIsQuickMode] = useState(true);
   
   // Form state
   const [form, setForm] = useState<Partial<Product>>({
@@ -222,11 +223,13 @@ export default function Products() {
     setEditing(product);
     setForm(product);
     setImages(product.images || []);
+    setIsQuickMode(false); // Edit always opens in advanced mode
     setOpen(true);
   };
 
   const openNew = () => {
     resetForm();
+    setIsQuickMode(true); // New product starts in quick mode
     setOpen(true);
   };
 
@@ -410,14 +413,124 @@ export default function Products() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className={isQuickMode ? "max-w-lg" : "max-w-4xl max-h-[90vh] overflow-y-auto"}>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-primary" />
-              {editing ? "Editar Produto" : "Novo Produto"}
+            <DialogTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                {isQuickMode ? <FastForward className="h-5 w-5 text-primary" /> : <Zap className="h-5 w-5 text-primary" />}
+                {editing ? "Editar Produto" : (isQuickMode ? "Cadastro Rápido" : "Cadastro Completo")}
+              </div>
+              {!editing && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setIsQuickMode(!isQuickMode)}
+                  className="text-muted-foreground"
+                >
+                  {isQuickMode ? (
+                    <>Modo Avançado <ChevronRight className="ml-1 h-4 w-4" /></>
+                  ) : (
+                    <>Modo Rápido</>
+                  )}
+                </Button>
+              )}
             </DialogTitle>
           </DialogHeader>
 
+          {isQuickMode && !editing ? (
+            // QUICK MODE - Simple form
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Nome do Produto *</Label>
+                <Input 
+                  value={form.name} 
+                  onChange={e => setForm({...form, name: e.target.value})}
+                  placeholder="Ex: Cimento Portland CP II 50kg"
+                  className="text-lg"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Preço de Venda *</Label>
+                  <Input 
+                    type="number"
+                    step="0.01"
+                    value={form.price || ""} 
+                    onChange={e => setForm({...form, price: parseFloat(e.target.value) || 0})}
+                    placeholder="R$ 0,00"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Estoque *</Label>
+                  <Input 
+                    type="number"
+                    value={form.stock || ""} 
+                    onChange={e => setForm({...form, stock: parseInt(e.target.value) || 0})}
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Imagem do Produto</Label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Cole a URL da imagem..."
+                    value={imageUrlInput}
+                    onChange={e => setImageUrlInput(e.target.value)}
+                  />
+                  <Button type="button" onClick={handleAddImageUrl} variant="outline" size="icon">
+                    <Link2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Você pode adicionar mais imagens no modo avançado
+                </p>
+              </div>
+
+              {images.length > 0 && (
+                <div className="flex gap-2">
+                  {images.map((img, idx) => (
+                    <div key={idx} className="relative w-16 h-16 rounded overflow-hidden">
+                      <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                      <button 
+                        onClick={() => removeImage(idx)}
+                        className="absolute top-0 right-0 bg-black/50 text-white p-0.5"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex gap-2 pt-4">
+                <Button variant="outline" className="flex-1" onClick={() => setOpen(false)}>
+                  Cancelar
+                </Button>
+                <Button 
+                  className="flex-1" 
+                  onClick={() => saveProduct.mutate()} 
+                  disabled={!form.name || saveProduct.isPending}
+                >
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  {saveProduct.isPending ? "Criando..." : "Criar Produto"}
+                </Button>
+              </div>
+              
+              <Button 
+                variant="ghost" 
+                className="w-full text-muted-foreground" 
+                onClick={() => setIsQuickMode(false)}
+              >
+                Quero cadastrar com mais detalhes
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            // ADVANCED MODE - Full tabs
+            <>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="basic">Básico</TabsTrigger>
@@ -775,6 +888,8 @@ export default function Products() {
               {saveProduct.isPending ? "Salvando..." : (editing ? "Atualizar" : "Criar Produto")}
             </Button>
           </div>
+          </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
