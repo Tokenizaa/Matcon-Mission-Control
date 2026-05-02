@@ -41,11 +41,14 @@ interface Product {
   name: string;
   sku: string | null;
   price: number;
+  sale_price: number | null;
   description: string | null;
   images: string[] | null;
+  primary_image_url: string | null;
   category_id: string | null;
   stock: number;
   unit: string;
+  slug: string | null;
 }
 
 interface CartItem {
@@ -103,11 +106,12 @@ export default function PublicStore() {
     queryFn: async () => {
       if (!store?.tenant_id) return [];
       
-      // Buscar produtos do tenant com RLS permitindo leitura pública
+      // Buscar produtos da view com imagem principal
       const { data, error } = await supabase
-        .from("products")
-        .select("id, name, sku, price, description, images, category_id, stock, unit")
+        .from("products_with_images")
+        .select("id, name, slug, sku, price, sale_price, description, images, primary_image_url, category_id, stock, unit")
         .eq("tenant_id", store.tenant_id)
+        .eq("is_active", true)
         .gt("stock", 0)
         .order("name");
       
@@ -649,16 +653,24 @@ function ProductCard({
     <Card className="overflow-hidden group hover:shadow-lg transition-shadow">
       {/* Imagem */}
       <div className="aspect-square bg-gray-100 relative overflow-hidden">
-        {product.images && product.images.length > 0 ? (
+        {product.primary_image_url ? (
           <img 
-            src={product.images[0]} 
+            src={product.primary_image_url} 
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-300">
             <PackageIcon className="h-12 w-12" />
           </div>
+        )}
+        
+        {/* Badge de promoção */}
+        {product.sale_price && product.sale_price < product.price && (
+          <Badge className="absolute top-2 left-2 bg-red-500 text-white">
+            -{Math.round((1 - product.sale_price / product.price) * 100)}%
+          </Badge>
         )}
         
         {cartQuantity > 0 && (
@@ -678,10 +690,21 @@ function ProductCard({
           <p className="text-xs text-gray-400 mb-2">{product.sku}</p>
         )}
         
-        <div className="flex items-center justify-between">
-          <span className="font-bold" style={{ color: primaryColor }}>
-            {brl(product.price)}
-          </span>
+        <div className="flex items-baseline gap-2">
+          {product.sale_price && product.sale_price < product.price ? (
+            <>
+              <span className="font-bold" style={{ color: primaryColor }}>
+                {brl(product.sale_price)}
+              </span>
+              <span className="text-xs text-gray-400 line-through">
+                {brl(product.price)}
+              </span>
+            </>
+          ) : (
+            <span className="font-bold" style={{ color: primaryColor }}>
+              {brl(product.price)}
+            </span>
+          )}
           <span className="text-xs text-gray-400">/{product.unit || 'un'}</span>
         </div>
         
