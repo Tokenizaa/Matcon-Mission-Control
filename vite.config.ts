@@ -12,7 +12,10 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(),
+    mode === "development" ? componentTagger() : null,
+  ].filter((plugin): plugin is NonNullable<typeof plugin> => plugin !== null),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
