@@ -23,6 +23,8 @@ import Thesis from "./pages/pmo/Thesis";
 import Checklist from "./pages/pmo/Checklist";
 import Roadmap from "./pages/pmo/Roadmap";
 import NotFound from "./pages/NotFound";
+import PublicStore from "./pages/PublicStore";
+import StoreManagement from "./pages/StoreManagement";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } },
@@ -36,12 +38,16 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
+            {/* Storefront Público - acesso sem login */}
+            <Route path="/s/:slug" element={<PublicStore />} />
+            
             <Route path="/auth" element={<Auth />} />
             <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
               <Route path="/" element={<MissionControl />} />
               <Route path="/analise" element={<Dashboard />} />
               <Route path="/conversas" element={<Conversations />} />
               <Route path="/loja" element={<Store />} />
+              <Route path="/minha-loja" element={<StoreManagement />} />
               <Route path="/pmo/kanban" element={<Kanban />} />
               <Route path="/pmo/tese" element={<Thesis />} />
               <Route path="/pmo/roadmap" element={<Roadmap />} />

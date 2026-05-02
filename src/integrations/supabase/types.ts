@@ -438,9 +438,152 @@ export type Database = {
         }
         Relationships: []
       }
+      stores: {
+        Row: {
+          id: string
+          tenant_id: string
+          slug: string
+          name: string
+          logo_url: string | null
+          banner_url: string | null
+          whatsapp_number: string | null
+          description: string | null
+          primary_color: string
+          secondary_color: string
+          is_active: boolean
+          is_public: boolean
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          tenant_id: string
+          slug: string
+          name: string
+          logo_url?: string | null
+          banner_url?: string | null
+          whatsapp_number?: string | null
+          description?: string | null
+          primary_color?: string
+          secondary_color?: string
+          is_active?: boolean
+          is_public?: boolean
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          tenant_id?: string
+          slug?: string
+          name?: string
+          logo_url?: string | null
+          banner_url?: string | null
+          whatsapp_number?: string | null
+          description?: string | null
+          primary_color?: string
+          secondary_color?: string
+          is_active?: boolean
+          is_public?: boolean
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_analytics: {
+        Row: {
+          id: string
+          store_id: string
+          event_type: string
+          session_id: string | null
+          ip_hash: string | null
+          referrer: string | null
+          user_agent: string | null
+          metadata: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          store_id: string
+          event_type: string
+          session_id?: string | null
+          ip_hash?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          store_id?: string
+          event_type?: string
+          session_id?: string | null
+          ip_hash?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      store_cart_sessions: {
+        Row: {
+          id: string
+          store_id: string
+          session_id: string
+          items: Json
+          customer_name: string | null
+          customer_whatsapp: string | null
+          status: string
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          store_id: string
+          session_id: string
+          items: Json
+          customer_name?: string | null
+          customer_whatsapp?: string | null
+          status?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          store_id?: string
+          session_id?: string
+          items?: Json
+          customer_name?: string | null
+          customer_whatsapp?: string | null
+          status?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      store_stats: {
+        Row: {
+          store_id: string | null
+          tenant_id: string | null
+          store_name: string | null
+          slug: string | null
+          is_active: boolean | null
+          views_30d: number | null
+          carts_30d: number | null
+          quotes_30d: number | null
+          active_carts: number | null
+          last_activity: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

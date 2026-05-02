@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Sparkles, Map, KanbanSquare, History, FileText, ShoppingCart, CreditCard, Users, Package, LayoutDashboard, MessageCircle, Store } from "lucide-react";
+import { Sparkles, Map, KanbanSquare, History, FileText, ShoppingCart, CreditCard, Users, Package, LayoutDashboard, MessageCircle, Store, Globe } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, useSidebar,
@@ -16,6 +16,7 @@ const platformItems = [
   { title: "Dashboard", url: "/analise", icon: LayoutDashboard },
   { title: "Conversas", url: "/conversas", icon: MessageCircle },
   { title: "Catálogo", url: "/loja", icon: Store },
+  { title: "Loja Virtual", url: "/minha-loja", icon: Globe },
   { title: "Orçamentos", url: "/orcamentos", icon: FileText },
   { title: "Pedidos", url: "/pedidos", icon: ShoppingCart },
   { title: "Cobranças", url: "/cobrancas", icon: CreditCard },
