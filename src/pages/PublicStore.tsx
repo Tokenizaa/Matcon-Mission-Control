@@ -107,7 +107,7 @@ export default function PublicStore() {
       const { data, error } = await supabase
         .from("products")
         .select("id, name, sku, price, description, images, category_id, stock, unit")
-        .eq("user_id", store.tenant_id)
+        .eq("tenant_id", store.tenant_id)
         .gt("stock", 0)
         .order("name");
       
